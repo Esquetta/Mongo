@@ -8,7 +8,7 @@ namespace Mongo.Controllers
         protected IMongoDatabase mongoDatabase;
         public BaseController()
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://sa:sa+123@cluster0.swru2ne.mongodb.net/?retryWrites=true&w=majority");
+            var settings = MongoClientSettings.FromConnectionString("YOUR_MONGO_LINK");
             var client = new MongoClient(settings);
             mongoDatabase = client.GetDatabase("Employees");
         }
