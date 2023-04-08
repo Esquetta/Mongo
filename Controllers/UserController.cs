@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Mongo.Dtos;
 using Mongo.Entities;
 using MongoDB.Bson;
@@ -11,9 +10,6 @@ namespace Mongo.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-
-
-
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
@@ -40,12 +36,12 @@ namespace Mongo.Controllers
         public async Task<IActionResult> Update(UpdateUserDto user)
         {
             var items = mongoDatabase.GetCollection<User>("users");
-            var filter =  Builders<User>.Filter.Eq("_id",new ObjectId(user._id));
+            var filter = Builders<User>.Filter.Eq("_id", new ObjectId(user._id));
             //If we want to update with object
-            
+
             var updatedUser = new User
             {
-                _id= new ObjectId(user._id),
+                _id = new ObjectId(user._id),
                 Name = user.Name,
                 SurName = user.SurName,
                 Age = user.Age,
