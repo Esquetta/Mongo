@@ -25,5 +25,22 @@ namespace Mongo.Controllers
 
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeeWithOrders()
+        {
+            var employees = mongoDatabase.GetCollection<Employee>("employees");
+            var orders = mongoDatabase.GetCollection<Orders>("Orders");
+
+            var pipeLine = employees.Aggregate().Lookup(
+                foreignCollection: orders,
+                localField: e => e.id,
+                foreignField: x => x.employeeId,
+                @as: (Employee e) => e.Orders);
+
+            var result = await pipeLine.ToListAsync();
+
+            return Ok(result);
+
+        }
     }
 }
