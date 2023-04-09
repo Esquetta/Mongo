@@ -53,6 +53,17 @@ namespace Mongo.Controllers
 
             return Ok(user);
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateName(string Id, string name)
+        {
+            var items = mongoDatabase.GetCollection<User>("users");
+            var filter = Builders<User>.Filter.Eq("_id", new ObjectId(Id));
+            var update = Builders<User>.Update.Set("Name", name);
+            var result= await items.UpdateOneAsync(filter, update,new UpdateOptions { IsUpsert=false});
+
+            return Ok(result);
+
+        }
         [HttpDelete]
         public async Task<IActionResult> Delete(string Id)
         {
@@ -62,6 +73,17 @@ namespace Mongo.Controllers
             await items.DeleteOneAsync(filter);
 
             return Ok(items);
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetById(string Id)
+        {
+            var items = mongoDatabase.GetCollection<User>("users");
+            var filter = Builders<User>.Filter.Eq("_id", new ObjectId(Id));
+            var result = await items.Find(filter).FirstOrDefaultAsync();
+
+            return Ok(result);
+
 
         }
     }
