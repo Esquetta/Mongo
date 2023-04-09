@@ -96,5 +96,15 @@ namespace Mongo.Controllers
 
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetListAgeGreaterThan20()
+        {
+            var items = mongoDatabase.GetCollection<User>("users").Aggregate().Match(x=>x.Age>50).ToList();
+            var filter = Builders<User>.Filter.Empty;
+            List<User> result = new List<User>();
+            
+
+            return Ok(items);
+        }
     }
 }
